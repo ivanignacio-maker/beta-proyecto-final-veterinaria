@@ -1,0 +1,175 @@
+/* === Landing Page === */
+.hero {
+    padding: 6rem 1.5rem;
+    background: linear-gradient(135deg, var(--color-surface) 0%, #EFF6FF 100%);
+    text-align: center;
+}
+.hero__title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+}
+.hero__subtitle {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+.hero__ctas {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.features-section {
+    padding: 4rem 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+.feature-card {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+.feature-card__icon {
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+}
+.feature-card__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* === Login Page === */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bg);
+    padding: 1.5rem;
+}
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--color-surface);
+    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+.login-card__logo {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--color-primary);
+    font-size: 2rem;
+}
+.login-card__title {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+.login-card__subtitle {
+    text-align: center;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+}
+
+/* === Dashboard === */
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+.dashboard-section {
+    margin-top: 2.5rem;
+}
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+.quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+}
+.quick-action-btn:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary-light);
+    color: var(--color-primary);
+}
+.quick-action-btn i {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+}
+
+/* === Acceso Externo (Solicitud/Validación) === */
+.acceso-page {
+    min-height: calc(100vh - var(--header-height));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+}
+.acceso-card {
+    width: 100%;
+    max-width: 480px;
+    background-color: var(--color-surface);
+    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+.acceso-info {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-dark);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
+
+/* === Historia Clínica Externa === */
+.external-history {
+    max-width: 900px;
+    margin: 0 auto;
+}
+.external-pet-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+.external-pet-header__img {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    background-color: var(--color-bg);
+}
+.external-pet-header__info h2 {
+    margin-bottom: 0.25rem;
+}
+.external-pet-header__info p {
+    margin: 0;
+    color: var(--color-text-secondary);
+}

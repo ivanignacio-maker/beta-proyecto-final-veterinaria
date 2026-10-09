@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Inicia sesión en VetCare para gestionar la historia clínica de tus mascotas.">
+    <title>Iniciar Sesión - VetCare</title>
+    
+    <link rel="icon" href="data:,">
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <!-- CSS Propios -->
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/pages.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <style>
+        body {
+            background-color: var(--color-bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            background-color: var(--color-surface);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container d-flex flex-column align-items-center">
+        <!-- Tarjeta de Login -->
+        <div class="login-card">
+            <!-- Header de Login -->
+            <div class="text-center mb-4">
+                <i class="bi bi-heart-pulse d-block mb-2" style="font-size: 3rem; color: var(--color-primary);"></i>
+                <h1 class="h3 fw-bold" style="color: var(--color-text);">VetCare</h1>
+                <p style="color: var(--color-text-secondary);">Iniciá sesión para acceder al panel</p>
+            </div>
+            
+            <hr class="mb-4">
+
+            <!-- Formulario de Login -->
+            <form id="login-form" novalidate>
+                <!-- Mensaje de Error General -->
+                <div id="login-error" class="alert alert-danger d-none" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <span id="login-error-text">Credenciales incorrectas. Verificá tu email y contraseña.</span>
+                </div>
+
+                <!-- Campo Email -->
+                <div class="mb-3">
+                    <label for="login-email" class="form-label fw-semibold">Correo electrónico</label>
+                    <input type="email" class="form-control" id="login-email" placeholder="ejemplo@veterinaria.com" required data-validate="email">
+                    <div class="invalid-feedback">Por favor, ingresá un correo electrónico válido.</div>
+                </div>
+
+                <!-- Campo Contraseña -->
+                <div class="mb-4">
+                    <label for="login-password" class="form-label fw-semibold">Contraseña</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="login-password" placeholder="Tu contraseña" required data-validate="required" minlength="4">
+                        <button class="btn btn-outline-secondary" type="button" id="toggle-password" aria-label="Mostrar u ocultar contraseña">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <div class="invalid-feedback">La contraseña es requerida y debe tener al menos 4 caracteres.</div>
+                    </div>
+                </div>
+
+                <!-- Botón Submit -->
+                <button type="submit" id="btn-submit" class="btn btn-primary w-100 py-2 mb-3 fw-bold" style="background-color: var(--color-primary); border-color: var(--color-primary);">
+                    <span id="submit-text">Iniciar sesión</span>
+                    <span id="submit-spinner" class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
+                </button>
+            </form>
+
+            <!-- Enlaces adicionales -->
+            <div class="text-center mt-3">
+                <a href="acceso.html" class="text-decoration-none d-block mb-2" style="color: var(--color-primary);">¿Necesitás acceder con un código?</a>
+                <a href="index.html" class="text-decoration-none text-muted d-block">Volver al inicio</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Scripts Propios -->
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/utils/validators.js"></script>
+    <script src="assets/js/components/toast.js"></script>
+    <script src="assets/js/components/forms.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="pages/login.js"></script>
+</body>
+</html>

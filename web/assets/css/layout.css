@@ -1,0 +1,221 @@
+/* === Header Principal === */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    z-index: var(--z-fixed);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+}
+
+.main-header__left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.main-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--color-primary);
+}
+
+.main-header__toggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    display: none; /* Visible en mobile */
+}
+
+.main-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.main-header__user {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+.main-header__user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+.main-header__user-name {
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+/* === Sidebar === */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: var(--header-height);
+    width: var(--sidebar-width);
+    height: calc(100vh - var(--header-height));
+    background-color: var(--color-surface);
+    border-right: 1px solid var(--color-border);
+    overflow-y: auto;
+    transition: transform var(--transition-normal);
+    z-index: var(--z-fixed);
+    padding: 1.5rem 1rem;
+}
+
+.sidebar__nav {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.sidebar__section-title {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    padding: 0 1.25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar__link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    font-size: 0.9375rem;
+}
+
+.sidebar__link:hover {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+}
+
+.sidebar__link.active {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    font-weight: 600;
+    border-left: 3px solid var(--color-primary);
+}
+
+.sidebar__link i {
+    font-size: 1.25rem;
+    width: 24px;
+    text-align: center;
+}
+
+.sidebar__divider {
+    height: 1px;
+    background-color: var(--color-border);
+    margin: 1rem 0;
+}
+
+/* === Contenido Principal === */
+.main-content {
+    margin-left: var(--sidebar-width);
+    margin-top: var(--header-height);
+    padding: 2rem;
+    min-height: calc(100vh - var(--header-height));
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.page-header__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.page-header__actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* === Footer === */
+.main-footer {
+    margin-left: var(--sidebar-width);
+    padding: 2rem;
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+}
+.main-footer__content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+.main-footer__brand {
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+}
+.main-footer__links {
+    list-style: none;
+}
+.main-footer__links li {
+    margin-bottom: 0.5rem;
+}
+.main-footer__legal {
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    border-top: 1px solid var(--color-border);
+    padding-top: 1rem;
+}
+
+/* === Layout Público (Sin Sidebar) === */
+.public-layout .main-header {
+    /* Header simplificado */
+}
+.public-layout .main-content {
+    margin-left: 0;
+}
+.public-layout .main-footer {
+    margin-left: 0;
+}
+.public-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* === Layout Acceso Externo === */
+.external-layout {
+    padding-top: 40px; /* Para el banner de acceso */
+}
+.external-layout .access-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: calc(var(--z-fixed) + 1);
+}

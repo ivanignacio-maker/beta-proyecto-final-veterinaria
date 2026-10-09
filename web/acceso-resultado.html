@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Vista temporal de historia clínica de mascota.">
+    <title>Historia Clínica - Acceso Temporal - VetCare</title>
+    
+    <link rel="icon" href="data:,">
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <!-- CSS Propios -->
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/pages.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <style>
+        .access-banner {
+            background-color: #FFF3CD;
+            color: #856404;
+            border-bottom: 1px solid #FFEEBA;
+        }
+        .main-container {
+            max-width: 900px;
+        }
+        /* Estilos básicos para Timeline en caso de que no exista el componente */
+        .timeline-mock {
+            border-left: 2px solid var(--color-border);
+            padding-left: 1.5rem;
+            margin-left: 1rem;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.8rem;
+            top: 0.2rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--color-primary);
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Banner de Acceso Temporal -->
+    <div class="access-banner py-2 px-3 d-flex flex-wrap justify-content-between align-items-center sticky-top">
+        <div class="d-flex align-items-center mb-2 mb-md-0">
+            <i class="bi bi-clock me-2 fs-5"></i>
+            <span class="fw-semibold me-2">Acceso temporal: <span id="banner-clinica-name">Cargando...</span></span>
+            <span class="badge bg-warning text-dark border border-warning-subtle rounded-pill">Solo lectura</span>
+        </div>
+        <button id="btn-finalizar-acceso" class="btn btn-outline-danger btn-sm rounded-pill fw-bold">
+            Finalizar acceso
+        </button>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main class="container main-container py-4" id="main-content">
+        
+        <!-- Loading State -->
+        <div id="loading-state" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-2 text-muted">Cargando historia clínica...</p>
+        </div>
+
+        <div id="content-loaded" class="d-none">
+            <!-- Encabezado de Mascota -->
+            <div class="card border-0 shadow-sm mb-4 rounded-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-primary bg-opacity-10 rounded-circle p-3 text-primary">
+                                <i class="bi bi-heptagon-fill fs-1" id="pet-icon"></i>
+                            </div>
+                            <div>
+                                <h1 class="h3 fw-bold mb-1" id="pet-name">Nombre Mascota</h1>
+                                <p class="text-muted mb-0">
+                                    <span id="pet-species">Especie</span> &bull; 
+                                    <span id="pet-breed">Raza</span>
+                                </p>
+                            </div>
+                        </div>
+                        <span id="badge-codigo" class="badge bg-success mt-3 mt-md-0">Acceso vía código</span>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row text-center text-md-start g-3">
+                        <div class="col-6 col-md-3">
+                            <small class="text-muted d-block">Edad</small>
+                            <strong id="pet-age">--</strong>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <small class="text-muted d-block">Peso</small>
+                            <strong id="pet-weight">--</strong>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <small class="text-muted d-block">Color</small>
+                            <strong id="pet-color">--</strong>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <small class="text-muted d-block">Propietario</small>
+                            <strong id="pet-owner">--</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historia Clínica -->
+            <section class="mb-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h4 fw-bold mb-0">Historia Clínica</h2>
+                    <!-- Filtros mockups -->
+                    <select class="form-select form-select-sm w-auto">
+                        <option value="all">Todos los eventos</option>
+                        <option value="consulta">Consultas</option>
+                        <option value="vacuna">Vacunas</option>
+                    </select>
+                </div>
+                
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <div id="timeline-container">
+                            <!-- El timeline se cargará por JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="my-5 text-muted">
+
+            <!-- Sección Informe Post-Atención -->
+            <section id="informe-section">
+                <h2 class="h4 fw-bold mb-3">Registrar Informe de Atención</h2>
+                
+                <div id="informe-container">
+                    <div class="alert alert-info border-0 shadow-sm mb-4">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        Completá este formulario con los detalles de la atención realizada. Esta información se agregará a la historia clínica de la mascota de forma inmediata.
+                    </div>
+
+                    <div class="card border-0 shadow-sm rounded-4">
+                        <div class="card-body p-4">
+                            <form id="informe-form" novalidate>
+                                
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label for="informe-fecha" class="form-label fw-semibold">Fecha de atención <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" id="informe-fecha" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="informe-tipo" class="form-label fw-semibold">Tipo de atención <span class="text-danger">*</span></label>
+                                        <select class="form-select" id="informe-tipo" required>
+                                            <option value="" disabled selected>Seleccione el tipo...</option>
+                                            <option value="Consulta general">Consulta general</option>
+                                            <option value="Procedimiento">Procedimiento</option>
+                                            <option value="Cirugía">Cirugía</option>
+                                            <option value="Estudio">Estudio</option>
+                                            <option value="Otro">Otro</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="informe-medicamentos" class="form-label fw-semibold">Medicamentos administrados / recetados</label>
+                                    <textarea class="form-control" id="informe-medicamentos" rows="4" placeholder="Detallá los medicamentos, dosis y vía de administración"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="informe-procedimientos" class="form-label fw-semibold">Procedimientos realizados</label>
+                                    <textarea class="form-control" id="informe-procedimientos" rows="4" placeholder="Describí los procedimientos realizados"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="informe-estudios" class="form-label fw-semibold">Estudios realizados</label>
+                                    <textarea class="form-control" id="informe-estudios" rows="4" placeholder="Indicá los estudios y sus resultados"></textarea>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="informe-observaciones" class="form-label fw-semibold">Observaciones generales</label>
+                                    <textarea class="form-control" id="informe-observaciones" rows="4" placeholder="Observaciones adicionales sobre la atención"></textarea>
+                                </div>
+                                
+                                <div id="informe-error" class="alert alert-danger d-none" role="alert">
+                                    Por favor, completá al menos un campo de Medicamentos, Procedimientos o Estudios.
+                                </div>
+
+                                <button type="submit" id="btn-submit-informe" class="btn btn-primary px-4 py-2 fw-bold">
+                                    <i class="bi bi-send me-2"></i> Enviar informe
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estado de Enviado Exitosamente -->
+                <div id="informe-enviado" class="d-none">
+                    <div class="card border-0 shadow-sm rounded-4 text-center p-5 bg-success text-white">
+                        <i class="bi bi-check-circle-fill d-block mb-3" style="font-size: 4rem;"></i>
+                        <h3 class="fw-bold mb-3">Informe registrado correctamente</h3>
+                        <p class="lead mb-4">La información fue agregada a la historia clínica de la mascota. El código de acceso ha sido marcado como utilizado.</p>
+                        <p class="mb-4">Podés cerrar esta ventana o finalizar el acceso desde el botón superior.</p>
+                        <div>
+                            <button id="btn-finalizar-acceso-2" class="btn btn-light fw-bold text-success px-4 py-2">
+                                Finalizar acceso e ir al inicio
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer Simplificado -->
+    <footer class="bg-white py-3 border-top text-center mt-auto">
+        <div class="container">
+            <span class="text-muted small">&copy; <script>document.write(new Date().getFullYear())</script> VetCare - Plataforma de Gestión Veterinaria</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Scripts Propios -->
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/utils/validators.js"></script>
+    <script src="assets/js/utils/formatters.js"></script>
+    <script src="assets/js/utils/mock-data.js"></script>
+    <script src="assets/js/services/api.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/components/toast.js"></script>
+    <script src="assets/js/components/forms.js"></script>
+    <script src="assets/js/components/badges.js"></script>
+    <script src="assets/js/components/timeline.js"></script>
+    <script src="assets/js/components/loading.js"></script>
+    <script src="assets/js/components/empty-state.js"></script>
+    <script src="pages/acceso-resultado.js"></script>
+</body>
+</html>
