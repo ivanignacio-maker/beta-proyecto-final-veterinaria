@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Centraliza la historia clínica de tus mascotas. Acceso seguro para veterinarias, continuidad de atención y gestión de turnos.">
+    <meta name="description" content="Centraliza la historia clínica de tus mascotas. Acceso seguro para veterinarias, continuidad de atención y gestión de turnos para dueños de mascotas.">
     <title>VetCare - Historia Clínica Única de Mascotas</title>
     
     <!-- Favicon placeholder -->
@@ -22,86 +22,89 @@
     <link rel="stylesheet" href="assets/css/pages.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
-<body>
+<body class="public-layout">
 
     <!-- Header Público -->
     <div id="header-container"></div>
 
     <!-- Hero Section -->
-    <section class="hero py-5 text-center bg-light" style="background-color: var(--color-bg) !important;">
+    <section class="hero py-5 text-center bg-light" style="background-color: var(--color-bg, #F8FAFC) !important;">
         <div class="container py-5">
-            <i class="bi bi-heart-pulse d-block mb-3" style="font-size: 4rem; color: var(--color-primary);"></i>
-            <h1 class="display-4 fw-bold mb-4" style="color: var(--color-text);">Historia Clínica Única de Mascotas</h1>
-            <p class="lead mb-5 mx-auto" style="max-width: 800px; color: var(--color-text-secondary);">
-                Centraliza la información clínica de tus mascotas. Acceso seguro para veterinarias, continuidad de atención entre clínicas y gestión integral de la salud animal.
+            <i class="bi bi-heart-pulse-fill d-block mb-3 text-primary" style="font-size: 4rem;"></i>
+            <h1 class="display-4 fw-bold mb-3 text-dark">Historia Clínica Única de Mascotas</h1>
+            <p class="lead mb-4 mx-auto text-muted" style="max-width: 800px;">
+                La plataforma web que conecta a <strong>dueños de mascotas</strong> y <strong>clínicas veterinarias</strong>. Centralizá vacunas, estudios, turnos y compartí el historial de forma 100% segura sin instalar aplicaciones.
             </p>
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="login.html" class="btn btn-primary btn-lg px-4 shadow-sm" style="background-color: var(--color-primary); border-color: var(--color-primary);">
-                    Acceder a la plataforma
+            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                <a href="login.html" class="btn btn-primary btn-lg px-4 shadow-sm fw-semibold">
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar sesión
                 </a>
-                <a href="acceso.html" class="btn btn-outline-primary btn-lg px-4 shadow-sm" style="color: var(--color-primary); border-color: var(--color-primary);">
-                    Canjear código de acceso
+                <a href="registro.html" class="btn btn-success btn-lg px-4 shadow-sm fw-semibold">
+                    <i class="bi bi-person-heart me-1"></i> Soy Dueño (Crear cuenta)
+                </a>
+                <a href="acceso.html" class="btn btn-outline-secondary btn-lg px-4 shadow-sm fw-semibold">
+                    <i class="bi bi-key-fill me-1"></i> Canjear código externo
                 </a>
             </div>
         </div>
     </section>
 
     <!-- Características -->
-    <section id="caracteristicas" class="py-5">
+    <section id="caracteristicas" class="py-5 bg-white border-top border-bottom">
         <div class="container py-4">
-            <h2 class="text-center mb-5 fw-bold" style="color: var(--color-text);">¿Qué ofrece VetCare?</h2>
+            <h2 class="text-center mb-5 fw-bold text-dark">¿Qué ofrece VetCare?</h2>
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm p-3 feature-card">
+                    <div class="card h-100 border-0 shadow-sm p-3 feature-card rounded-4">
                         <div class="card-body text-center">
-                            <i class="bi bi-file-earmark-medical mb-3 d-block" style="font-size: 2.5rem; color: var(--color-secondary);"></i>
+                            <i class="bi bi-file-earmark-medical mb-3 d-block fs-1 text-primary"></i>
                             <h5 class="card-title fw-bold">Historia Clínica Centralizada</h5>
                             <p class="card-text text-muted">Toda la información clínica de cada mascota en un solo lugar, accesible desde cualquier veterinaria autorizada.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm p-3 feature-card">
+                    <div class="card h-100 border-0 shadow-sm p-3 feature-card rounded-4">
                         <div class="card-body text-center">
-                            <i class="bi bi-shield-lock mb-3 d-block" style="font-size: 2.5rem; color: var(--color-secondary);"></i>
-                            <h5 class="card-title fw-bold">Acceso Seguro</h5>
-                            <p class="card-text text-muted">Sistema de permisos controlado por el dueño. Solo las veterinarias autorizadas pueden acceder a la información.</p>
+                            <i class="bi bi-shield-lock mb-3 d-block fs-1 text-success"></i>
+                            <h5 class="card-title fw-bold">Acceso y Permisos Seguros</h5>
+                            <p class="card-text text-muted">Sistema de control en manos del dueño. Solo las clínicas que vos apruebes pueden ver y agregar registros.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm p-3 feature-card">
+                    <div class="card h-100 border-0 shadow-sm p-3 feature-card rounded-4">
                         <div class="card-body text-center">
-                            <i class="bi bi-arrow-repeat mb-3 d-block" style="font-size: 2.5rem; color: var(--color-secondary);"></i>
-                            <h5 class="card-title fw-bold">Continuidad entre Veterinarias</h5>
-                            <p class="card-text text-muted">Cuando tu mascota es atendida en otra clínica, la información se integra automáticamente al historial.</p>
+                            <i class="bi bi-arrow-repeat mb-3 d-block fs-1 text-info"></i>
+                            <h5 class="card-title fw-bold">Continuidad de Atención</h5>
+                            <p class="card-text text-muted">Si cambias de veterinaria o tenés una urgencia en otra clínica, el historial médico viaja con tu mascota.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm p-3 feature-card">
+                    <div class="card h-100 border-0 shadow-sm p-3 feature-card rounded-4">
                         <div class="card-body text-center">
-                            <i class="bi bi-calendar-check mb-3 d-block" style="font-size: 2.5rem; color: var(--color-secondary);"></i>
-                            <h5 class="card-title fw-bold">Gestión de Turnos</h5>
-                            <p class="card-text text-muted">Agenda turnos con tu veterinaria y lleva un registro organizado de todas las citas.</p>
+                            <i class="bi bi-calendar-check mb-3 d-block fs-1 text-warning"></i>
+                            <h5 class="card-title fw-bold">Gestión de Turnos Online</h5>
+                            <p class="card-text text-muted">Solicitá turnos con las veterinarias de la red y llevá un registro organizado de todas tus visitas pasadas y futuras.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm p-3 feature-card">
+                    <div class="card h-100 border-0 shadow-sm p-3 feature-card rounded-4">
                         <div class="card-body text-center">
-                            <i class="bi bi-key mb-3 d-block" style="font-size: 2.5rem; color: var(--color-secondary);"></i>
+                            <i class="bi bi-key mb-3 d-block fs-1 text-danger"></i>
                             <h5 class="card-title fw-bold">Acceso Temporal con Código</h5>
-                            <p class="card-text text-muted">Genera un código para que una veterinaria externa acceda temporalmente a la historia clínica.</p>
+                            <p class="card-text text-muted">Generá un código de 6 caracteres desde tu navegador para que una veterinaria externa consulte el historial puntualmente.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm p-3 feature-card">
+                    <div class="card h-100 border-0 shadow-sm p-3 feature-card rounded-4">
                         <div class="card-body text-center">
-                            <i class="bi bi-clipboard-data mb-3 d-block" style="font-size: 2.5rem; color: var(--color-secondary);"></i>
-                            <h5 class="card-title fw-bold">Reportes e Informes</h5>
-                            <p class="card-text text-muted">Cada atención queda registrada con su origen, creando un historial completo y trazable.</p>
+                            <i class="bi bi-journal-check mb-3 d-block fs-1 text-purple" style="color: #6D28D9;"></i>
+                            <h5 class="card-title fw-bold">Trazabilidad y Reportes</h5>
+                            <p class="card-text text-muted">Cada vacuna, consulta y estudio queda registrado con el nombre del profesional y la clínica de origen.</p>
                         </div>
                     </div>
                 </div>
@@ -110,39 +113,50 @@
     </section>
 
     <!-- Cómo Funciona -->
-    <section id="como-funciona" class="py-5" style="background-color: var(--color-surface);">
+    <section id="como-funciona" class="py-5" style="background-color: var(--color-bg, #F8FAFC);">
         <div class="container py-4">
-            <h2 class="text-center mb-5 fw-bold" style="color: var(--color-text);">¿Cómo funciona?</h2>
+            <h2 class="text-center mb-5 fw-bold text-dark">¿Cómo funciona para los dueños?</h2>
             <div class="row g-4 text-center">
                 <div class="col-md-4 px-4">
-                    <i class="bi bi-1-circle mb-3 d-block" style="font-size: 3rem; color: var(--color-accent);"></i>
-                    <h4 class="fw-bold">Registrá tu mascota</h4>
-                    <p class="text-muted">El dueño registra a su mascota y su información básica en la aplicación.</p>
+                    <i class="bi bi-1-circle mb-3 d-block display-5 text-primary"></i>
+                    <h4 class="fw-bold text-dark">1. Registrá tus mascotas</h4>
+                    <p class="text-muted">Creá tu cuenta de dueño y registrá a tus animales con su especie, raza, peso y señas particulares.</p>
                 </div>
                 <div class="col-md-4 px-4">
-                    <i class="bi bi-2-circle mb-3 d-block" style="font-size: 3rem; color: var(--color-accent);"></i>
-                    <h4 class="fw-bold">Autorizá veterinarias</h4>
-                    <p class="text-muted">Aprobá o rechazá solicitudes de acceso de las veterinarias que atienden a tu mascota.</p>
+                    <i class="bi bi-2-circle mb-3 d-block display-5 text-success"></i>
+                    <h4 class="fw-bold text-dark">2. Autorizá a las veterinarias</h4>
+                    <p class="text-muted">Aprobá o revocá permisos a las clínicas que atienden a tus compañeros con total transparencia.</p>
                 </div>
                 <div class="col-md-4 px-4">
-                    <i class="bi bi-3-circle mb-3 d-block" style="font-size: 3rem; color: var(--color-accent);"></i>
-                    <h4 class="fw-bold">Historial unificado</h4>
-                    <p class="text-muted">Cada consulta, vacuna o estudio queda registrado en una historia clínica única y accesible.</p>
+                    <i class="bi bi-3-circle mb-3 d-block display-5 text-info"></i>
+                    <h4 class="fw-bold text-dark">3. Historial clínico unificado</h4>
+                    <p class="text-muted">Accedé al timeline completo de salud médica de tu mascota desde cualquier dispositivo sin instalar apps.</p>
                 </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <a href="registro.html" class="btn btn-success btn-lg px-4 shadow-sm fw-bold">
+                    <i class="bi bi-person-plus me-1"></i> Comenzar ahora como Dueño
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Acceso Externo -->
-    <section id="acceso-externo" class="py-5" style="background-color: var(--color-primary-light);">
-        <div class="container py-5 text-center">
-            <h2 class="fw-bold mb-4" style="color: var(--color-text);">Acceso para Veterinarias Externas</h2>
-            <p class="lead mb-4 mx-auto" style="max-width: 700px; color: var(--color-text-secondary);">
-                Si tenés un código de acceso proporcionado por el dueño de una mascota, podés consultar su historia clínica de forma temporal y segura.
-            </p>
-            <a href="acceso.html" class="btn btn-primary btn-lg px-4 shadow" style="background-color: var(--color-primary); border-color: var(--color-primary);">
-                Canjear código de acceso
-            </a>
+    <!-- Acceso Externo Banner -->
+    <section id="acceso-externo" class="py-5 bg-white border-top">
+        <div class="container py-4 text-center">
+            <div class="card border-0 shadow-sm rounded-4 p-5 mx-auto" style="max-width: 800px; background-color: var(--color-primary-light, #DBEAFE);">
+                <i class="bi bi-key-fill text-primary display-4 mb-2"></i>
+                <h3 class="fw-bold mb-3 text-dark">¿Sos una veterinaria externa?</h3>
+                <p class="text-muted mb-4 mx-auto" style="max-width: 600px;">
+                    Si recibiste un código alfanumérico temporal generado por el dueño de una mascota, podés acceder de inmediato en modo lectura y registrar el informe de atención.
+                </p>
+                <div>
+                    <a href="acceso.html" class="btn btn-primary btn-lg px-4 shadow fw-semibold">
+                        <i class="bi bi-unlock-fill me-1"></i> Canjear código de acceso
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -154,9 +168,11 @@
     
     <!-- Scripts Propios -->
     <script src="assets/js/config.js"></script>
+    <script src="utils/mock-data.js"></script>
     <script src="assets/js/utils.js"></script>
-    <script src="assets/js/components/header.js"></script>
-    <script src="assets/js/components/footer.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="components/header.js"></script>
+    <script src="components/footer.js"></script>
     <script src="pages/landing.js"></script>
 </body>
 </html>

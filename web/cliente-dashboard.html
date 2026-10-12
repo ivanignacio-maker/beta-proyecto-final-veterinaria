@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Panel - VetCare Dueños</title>
+    
+    <link rel="icon" href="data:,">
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <!-- CSS Propios -->
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/pages.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body class="client-layout">
+    <!-- Header -->
+    <div id="header-container"></div>
+    
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        <div class="container-fluid p-0">
+            <!-- Saludo y Bienvenida -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                <div>
+                    <h1 class="h3 fw-bold text-dark mb-1" id="saludo-usuario">Hola, Bienvenido/a</h1>
+                    <p class="text-muted mb-0">Gestioná la salud, turnos y autorizaciones de tus mascotas desde un solo lugar.</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-primary d-flex align-items-center gap-2" id="btn-generar-codigo-rapido">
+                        <i class="bi bi-key-fill"></i> Generar código
+                    </button>
+                    <a href="cliente-turnos.html" class="btn btn-success d-flex align-items-center gap-2">
+                        <i class="bi bi-calendar-plus"></i> Pedir turno
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contenedor para Alertas y Notificaciones Importantes -->
+            <div id="alertas-notificaciones-container" class="mb-4"></div>
+
+            <!-- Tarjetas de Estadísticas -->
+            <div class="row g-3 mb-4" id="stats-container">
+                <div class="col-6 col-lg-3">
+                    <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-3 p-3 bg-primary-subtle text-primary">
+                                <i class="bi bi-heart-pulse-fill fs-3"></i>
+                            </div>
+                            <div>
+                                <h3 class="fw-bold mb-0 text-dark" id="stat-mascotas">--</h3>
+                                <small class="text-muted">Mis Mascotas</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-3 p-3 bg-success-subtle text-success">
+                                <i class="bi bi-calendar-check-fill fs-3"></i>
+                            </div>
+                            <div>
+                                <h3 class="fw-bold mb-0 text-dark" id="stat-turnos">--</h3>
+                                <small class="text-muted">Próximos Turnos</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-3 p-3 bg-warning-subtle text-warning">
+                                <i class="bi bi-shield-exclamation fs-3"></i>
+                            </div>
+                            <div>
+                                <h3 class="fw-bold mb-0 text-dark" id="stat-solicitudes">--</h3>
+                                <small class="text-muted">Solicitudes Acceso</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-3 p-3 bg-info-subtle text-info">
+                                <i class="bi bi-key-fill fs-3"></i>
+                            </div>
+                            <div>
+                                <h3 class="fw-bold mb-0 text-dark" id="stat-codigos">--</h3>
+                                <small class="text-muted">Códigos Activos</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accesos Rápidos -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+                <h5 class="fw-bold mb-3 text-dark">Acciones Rápidas</h5>
+                <div class="row g-2">
+                    <div class="col-6 col-md-3">
+                        <button class="btn btn-light w-100 p-3 rounded-3 text-start border h-100" id="btn-modal-nueva-mascota">
+                            <i class="bi bi-plus-circle-fill text-primary fs-4 d-block mb-1"></i>
+                            <span class="fw-bold d-block text-dark">Nueva Mascota</span>
+                            <small class="text-muted" style="font-size: 0.75rem;">Dar de alta en el sistema</small>
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a href="cliente-turnos.html" class="btn btn-light w-100 p-3 rounded-3 text-start border h-100 text-decoration-none">
+                            <i class="bi bi-calendar-check text-success fs-4 d-block mb-1"></i>
+                            <span class="fw-bold d-block text-dark">Pedir Turno</span>
+                            <small class="text-muted" style="font-size: 0.75rem;">Consultas o vacunas</small>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a href="cliente-autorizaciones.html" class="btn btn-light w-100 p-3 rounded-3 text-start border h-100 text-decoration-none">
+                            <i class="bi bi-qr-code text-info fs-4 d-block mb-1"></i>
+                            <span class="fw-bold d-block text-dark">Códigos de Acceso</span>
+                            <small class="text-muted" style="font-size: 0.75rem;">Para veterinarias externas</small>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a href="cliente-reporte.html" class="btn btn-light w-100 p-3 rounded-3 text-start border h-100 text-decoration-none">
+                            <i class="bi bi-journal-medical text-warning fs-4 d-block mb-1"></i>
+                            <span class="fw-bold d-block text-dark">Reportar Atención</span>
+                            <small class="text-muted" style="font-size: 0.75rem;">Cargar formulario de dueño</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Columna Izquierda: Mis Mascotas -->
+                <div class="col-lg-7">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold text-dark mb-0">Mis Mascotas</h5>
+                            <a href="cliente-mascotas.html" class="btn btn-sm btn-link text-primary text-decoration-none fw-semibold">
+                                Ver todas <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div id="mascotas-list-container">
+                            <!-- Inyectado por JS -->
+                            <div class="text-center py-4 text-muted">
+                                <span class="spinner-border spinner-border-sm me-2"></span>Cargando tus mascotas...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Próximos Turnos y Accesos -->
+                <div class="col-lg-5">
+                    <!-- Turnos -->
+                    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold text-dark mb-0">Próximos Turnos</h5>
+                            <a href="cliente-turnos.html" class="btn btn-sm btn-link text-primary text-decoration-none fw-semibold">
+                                Ver turnos <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div id="turnos-list-container">
+                            <div class="text-center py-3 text-muted">
+                                <span class="spinner-border spinner-border-sm me-2"></span>Cargando turnos...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Solicitudes Recibidas -->
+                    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold text-dark mb-0">Permisos de Clínicas</h5>
+                            <a href="cliente-autorizaciones.html" class="btn btn-sm btn-link text-primary text-decoration-none fw-semibold">
+                                Gestionar <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div id="solicitudes-list-container">
+                            <div class="text-center py-3 text-muted">
+                                <span class="spinner-border spinner-border-sm me-2"></span>Cargando solicitudes...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Modal Registrar Mascota con Motor de Duplicados -->
+    <div class="modal fade" id="modalRegistrarMascota" tabindex="-1" aria-labelledby="modalMascotaTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header border-bottom bg-light">
+                    <h5 class="modal-title fw-bold" id="modalMascotaTitle"><i class="bi bi-plus-circle text-primary me-2"></i>Registrar Mascota</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <!-- Alerta de Posible Duplicado (Motor de Identidad) -->
+                    <div id="alerta-duplicado" class="alert alert-warning d-none py-2 px-3 small mb-3 border-warning" role="alert">
+                        <div class="d-flex gap-2">
+                            <i class="bi bi-exclamation-triangle-fill fs-5 text-warning"></i>
+                            <div>
+                                <span class="fw-bold d-block">¡Posible mascota duplicada detectada!</span>
+                                <span id="duplicado-mensaje">Ya existe una mascota registrada con estos mismos datos. ¿Estás seguro de continuar?</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="form-alta-mascota" novalidate>
+                        <div class="mb-3">
+                            <label for="pet-nombre" class="form-label fw-semibold small">Nombre de la mascota <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="pet-nombre" placeholder="Ej: Bobby, Luna, Rocky..." required>
+                            <div class="invalid-feedback small">El nombre es obligatorio.</div>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-sm-6">
+                                <label for="pet-tipo" class="form-label fw-semibold small">Especie / Tipo <span class="text-danger">*</span></label>
+                                <select class="form-select" id="pet-tipo" required>
+                                    <option value="perro" selected>Perro</option>
+                                    <option value="gato">Gato</option>
+                                    <option value="conejo">Conejo</option>
+                                    <option value="ave">Ave</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="pet-raza" class="form-label fw-semibold small">Raza</label>
+                                <input type="text" class="form-control" id="pet-raza" placeholder="Ej: Mestizo, Caniche, Siamés...">
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-sm-6">
+                                <label for="pet-fecha-nac" class="form-label fw-semibold small">Fecha de Nacimiento / Aprox.</label>
+                                <input type="date" class="form-control" id="pet-fecha-nac">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="pet-peso" class="form-label fw-semibold small">Peso (Kg)</label>
+                                <input type="number" step="0.1" class="form-control" id="pet-peso" placeholder="Ej: 12.5">
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-sm-6">
+                                <label for="pet-color" class="form-label fw-semibold small">Color / Pelaje</label>
+                                <input type="text" class="form-control" id="pet-color" placeholder="Ej: Marrón y blanco">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="pet-microchip" class="form-label fw-semibold small">Microchip (si posee)</label>
+                                <input type="text" class="form-control" id="pet-microchip" placeholder="Número de microchip">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary fw-semibold" id="btn-submit-mascota">
+                                Guardar mascota
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Generar Código Rápido -->
+    <div class="modal fade" id="modalGenerarCodigoRapido" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header border-bottom bg-light">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-key-fill text-primary me-2"></i>Generar Código de Acceso Externo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-muted small">Crea un código alfanumérico temporal para que una clínica externa que no use VetCare consulte el historial de tu mascota en modo lectura.</p>
+                    
+                    <form id="form-codigo-rapido">
+                        <div class="mb-3">
+                            <label for="codigo-mascota-select" class="form-label fw-semibold small">Seleccioná la mascota</label>
+                            <select class="form-select" id="codigo-mascota-select" required></select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="codigo-vigencia-select" class="form-label fw-semibold small">Vigencia del acceso</label>
+                            <select class="form-select" id="codigo-vigencia-select">
+                                <option value="24">24 horas</option>
+                                <option value="48" selected>48 horas (Recomendado)</option>
+                                <option value="72">72 horas</option>
+                            </select>
+                        </div>
+
+                        <div id="resultado-codigo-box" class="d-none text-center p-3 my-3 bg-light rounded-3 border">
+                            <small class="text-muted d-block mb-1">CÓDIGO GENERADO:</small>
+                            <div class="display-6 fw-bold text-primary tracking-wide mb-2" id="codigo-generado-val">------</div>
+                            <small class="text-muted d-block">Compartí este código con el profesional veterinario.</small>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary fw-semibold" id="btn-crear-codigo-submit">
+                                Generar código ahora
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="utils/mock-data.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="utils/formatters.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="services/api.js"></script>
+    <script src="components/header.js"></script>
+    <script src="components/sidebar.js"></script>
+    <script src="components/footer.js"></script>
+    <script src="components/toast.js"></script>
+    <script src="pages/cliente-dashboard.js"></script>
+</body>
+</html>

@@ -1,24 +1,33 @@
 /**
- * Inicialización principal de la aplicación
+ * Inicialización principal de la aplicación VetCare
+ * Soporta control de acceso inteligente para:
+ * - Vistas públicas (Landing, Login, Registro, Acceso por código)
+ * - Portal del Dueño de Mascota (.client-layout)
+ * - Panel Profesional Veterinario (.vet-layout o páginas clínicas)
  */
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Determinar tipo de página
     const body = document.body;
     const isPublicPage = body.classList.contains('public-layout');
     const isExternalAccess = body.classList.contains('external-layout');
+    const isClientPage = body.classList.contains('client-layout');
     
-    // 2. Control de acceso
+    // 2. Control de acceso según el rol requerido
     if (!isPublicPage && !isExternalAccess) {
-        auth.requireAuth();
+        if (isClientPage) {
+            auth.requireAuth('CLIENTE');
+        } else {
+            auth.requireAuth('VETERINARIA');
+        }
     }
 
-    // 3. Inicializar componentes de layout (Sidebar)
+    // 3. Inicializar componentes de layout (Sidebar toggle)
     initSidebar();
 
     // 4. Marcar link activo en sidebar
     highlightActiveLink();
 
-    // 5. Setup de utilidades globales (ej. cierre de modales si se hace clic fuera)
+    // 5. Setup de modales
     initModals();
     
     // 6. Cargar datos del usuario en header
@@ -28,67 +37,41 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initSidebar() {
-    const toggleBtn = document.querySelector('.main-header__toggle');
-    const sidebar = document.querySelector('.sidebar');
+    const toggleBtn = document.getElementById('sidebarToggle') || document.querySelector('.main-header__toggle');
+    const sidebar = document.getElementById('mainSidebar') || document.querySelector('.sidebar');
     
-    if (toggleBtn && sidebar) {
-        // Crear overlay
-        const overlay = document.createElement('div');
-        overlay.className = 'sidebar-overlay';
-        document.body.appendChild(overlay);
-
-        const toggleSidebar = () => {
-            sidebar.classList.toggle('sidebar--open');
-            overlay.classList.toggle('show');
-        };
-
-        toggleBtn.addEventListener('click', toggleSidebar);
-        overlay.addEventListener('click', toggleSidebar);
+    if (toggleBtn && sidebar && window.SidebarComponent) {
+        toggleBtn.addEventListener('click', () => {
+            window.SidebarComponent.toggle();
+        });
     }
 }
 
 function highlightActiveLink() {
-    const currentPath = window.location.pathname;
+    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     const links = document.querySelectorAll('.sidebar__link');
     
     links.forEach(link => {
         const href = link.getAttribute('href');
-        // Simple match, mejorar según routing
-        if (href && currentPath.includes(href) && href !== '#') {
-            link.classList.add('active');
-        } else if (currentPath === '/' && href === 'index.html') {
-            link.classList.add('active'); // Caso raíz
+        if (href && href !== '#' && href !== 'javascript:void(0)') {
+            if (currentPath === href || (href !== 'index.html' && currentPath.includes(href.replace('.html', '')))) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
         }
     });
 }
 
 function initModals() {
-    // Simple manejador de modales sin dependencias de Bootstrap JS
-    const modalTriggers = document.querySelectorAll('[data-bs-toggle="modal"]');
+    // Manejador genérico para botones data-bs-dismiss="modal" en caso de no usar Bootstrap JS
     const closeBtns = document.querySelectorAll('[data-bs-dismiss="modal"]');
-
-    modalTriggers.forEach(trigger => {
-        trigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            const target = document.querySelector(trigger.getAttribute('data-bs-target'));
-            if (target) {
-                target.classList.add('show');
-            }
-        });
-    });
-
     closeBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const modal = btn.closest('.modal-custom-backdrop');
-            if (modal) modal.classList.remove('show');
-        });
-    });
-
-    // Cerrar al clickear el backdrop
-    document.querySelectorAll('.modal-custom-backdrop').forEach(backdrop => {
-        backdrop.addEventListener('click', (e) => {
-            if (e.target === backdrop) {
-                backdrop.classList.remove('show');
+            const modalEl = btn.closest('.modal');
+            if (modalEl && window.bootstrap && window.bootstrap.Modal) {
+                const modal = window.bootstrap.Modal.getInstance(modalEl);
+                if (modal) modal.hide();
             }
         });
     });
@@ -102,5 +85,5 @@ function renderUserInfo() {
     const avatarEl = document.querySelector('.main-header__user-avatar');
 
     if (nameEl) nameEl.textContent = user.nombre;
-    if (avatarEl) avatarEl.textContent = utils.getInitials(user.nombre);
+    if (avatarEl && window.utils) avatarEl.textContent = utils.getInitials(user.nombre);
 }

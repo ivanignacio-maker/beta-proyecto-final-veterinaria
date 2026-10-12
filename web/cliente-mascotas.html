@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Mascotas - VetCare Dueños</title>
+    
+    <link rel="icon" href="data:,">
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <!-- CSS Propios -->
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/pages.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body class="client-layout">
+    <!-- Header -->
+    <div id="header-container"></div>
+    
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        <div class="container-fluid p-0">
+            <!-- Breadcrumbs y Título -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                <div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-1">
+                            <li class="breadcrumb-item"><a href="cliente-dashboard.html" class="text-decoration-none text-muted">Mi Panel</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Mis Mascotas</li>
+                        </ol>
+                    </nav>
+                    <h1 class="h3 fw-bold text-dark mb-0">Mis Mascotas Registradas</h1>
+                </div>
+                <button class="btn btn-primary d-flex align-items-center gap-2 fw-semibold shadow-sm" id="btn-nueva-mascota">
+                    <i class="bi bi-plus-circle-fill"></i> Registrar Mascota
+                </button>
+            </div>
+
+            <!-- Filtros y Búsqueda -->
+            <div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
+                <div class="row g-2 align-items-center">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-search"></i></span>
+                            <input type="text" class="form-control border-start-0" id="search-mascotas" placeholder="Buscar por nombre, raza o especie...">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" id="filtro-tipo">
+                            <option value="">Todas las especies</option>
+                            <option value="perro">Perros</option>
+                            <option value="gato">Gatos</option>
+                            <option value="conejo">Conejos</option>
+                            <option value="ave">Aves</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 text-md-end text-muted small" id="contador-mascotas">
+                        -- mascotas
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de Mascotas -->
+            <div id="mascotas-grid-container" class="row g-4">
+                <div class="col-12 text-center py-5 text-muted">
+                    <span class="spinner-border spinner-border-sm me-2"></span>Cargando mascotas...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Modal Alta de Mascota con Motor de Duplicados -->
+    <div class="modal fade" id="modalAltaMascota" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header border-bottom bg-light">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-plus-circle text-primary me-2"></i>Registrar Nueva Mascota</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div id="alerta-duplicado" class="alert alert-warning d-none py-2 px-3 small mb-3 border-warning" role="alert">
+                        <div class="d-flex gap-2">
+                            <i class="bi bi-exclamation-triangle-fill fs-5 text-warning"></i>
+                            <div>
+                                <span class="fw-bold d-block">¡Posible mascota duplicada detectada!</span>
+                                <span id="duplicado-mensaje">Ya existe una mascota con datos similares registrada a tu nombre.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="form-mascota" novalidate>
+                        <input type="hidden" id="edit-mascota-id" value="">
+                        
+                        <div class="mb-3">
+                            <label for="m-nombre" class="form-label fw-semibold small">Nombre <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="m-nombre" placeholder="Ej: Bobby" required>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label for="m-tipo" class="form-label fw-semibold small">Especie <span class="text-danger">*</span></label>
+                                <select class="form-select" id="m-tipo" required>
+                                    <option value="perro" selected>Perro</option>
+                                    <option value="gato">Gato</option>
+                                    <option value="conejo">Conejo</option>
+                                    <option value="ave">Ave</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="m-raza" class="form-label fw-semibold small">Raza</label>
+                                <input type="text" class="form-control" id="m-raza" placeholder="Ej: Golden Retriever">
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label for="m-fecha" class="form-label fw-semibold small">Fecha Nacimiento</label>
+                                <input type="date" class="form-control" id="m-fecha">
+                            </div>
+                            <div class="col-6">
+                                <label for="m-peso" class="form-label fw-semibold small">Peso actual (kg)</label>
+                                <input type="number" step="0.1" class="form-control" id="m-peso" placeholder="Ej: 14.5">
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mb-4">
+                            <div class="col-6">
+                                <label for="m-color" class="form-label fw-semibold small">Color / Pelaje</label>
+                                <input type="text" class="form-control" id="m-color" placeholder="Ej: Dorado">
+                            </div>
+                            <div class="col-6">
+                                <label for="m-microchip" class="form-label fw-semibold small">N° Microchip (opcional)</label>
+                                <input type="text" class="form-control" id="m-microchip" placeholder="Ej: 98102000...">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary fw-semibold" id="btn-submit-form">
+                                Guardar mascota
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="utils/mock-data.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="utils/formatters.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="services/api.js"></script>
+    <script src="components/header.js"></script>
+    <script src="components/sidebar.js"></script>
+    <script src="components/footer.js"></script>
+    <script src="components/toast.js"></script>
+    <script src="pages/cliente-mascotas.js"></script>
+</body>
+</html>

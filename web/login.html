@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Inicia sesión en VetCare para gestionar la historia clínica de tus mascotas.">
+    <meta name="description" content="Inicia sesión en VetCare para gestionar historias clínicas, turnos y mascotas.">
     <title>Iniciar Sesión - VetCare</title>
     
     <link rel="icon" href="data:,">
@@ -23,88 +23,159 @@
 
     <style>
         body {
-            background-color: var(--color-bg);
+            background-color: var(--color-bg, #F8FAFC);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
+            padding: 1.5rem;
         }
         .login-card {
             width: 100%;
-            max-width: 400px;
-            padding: 2rem;
-            background-color: var(--color-surface);
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            max-width: 440px;
+            padding: 2.25rem;
+            background-color: var(--color-surface, #FFFFFF);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--color-border, #E2E8F0);
+        }
+        .role-pill {
+            cursor: pointer;
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+        .role-pill.active {
+            background-color: var(--color-primary-light, #DBEAFE);
+            color: var(--color-primary-dark, #1D4ED8);
+            border-color: var(--color-primary, #2563EB);
+        }
+        .role-pill:not(.active) {
+            background-color: #F1F5F9;
+            color: #64748B;
+        }
+        .role-pill:hover:not(.active) {
+            background-color: #E2E8F0;
+        }
+        .demo-box {
+            background-color: #F8FAFC;
+            border: 1px dashed #CBD5E1;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 0.85rem;
         }
     </style>
 </head>
-<body>
+<body class="public-layout">
 
-    <div class="container d-flex flex-column align-items-center">
-        <!-- Tarjeta de Login -->
-        <div class="login-card">
-            <!-- Header de Login -->
-            <div class="text-center mb-4">
-                <i class="bi bi-heart-pulse d-block mb-2" style="font-size: 3rem; color: var(--color-primary);"></i>
-                <h1 class="h3 fw-bold" style="color: var(--color-text);">VetCare</h1>
-                <p style="color: var(--color-text-secondary);">Iniciá sesión para acceder al panel</p>
+    <div class="login-card">
+        <!-- Logo y Título -->
+        <div class="text-center mb-3">
+            <a href="index.html" class="text-decoration-none">
+                <i class="bi bi-heart-pulse-fill d-inline-block text-primary" style="font-size: 2.75rem;"></i>
+                <h1 class="h3 fw-bold mt-1 text-dark">VetCare</h1>
+            </a>
+            <p class="text-muted small mb-0">Historia Clínica Única de Mascotas</p>
+        </div>
+
+        <!-- Selector de Perfil (Dueño vs Veterinaria) -->
+        <div class="mb-4">
+            <label class="form-label small text-muted text-uppercase fw-bold mb-2 d-block text-center">Tipo de cuenta</label>
+            <div class="d-flex gap-2">
+                <div class="role-pill flex-fill active" id="pill-cliente" data-role="CLIENTE">
+                    <i class="bi bi-person-heart me-1 text-success"></i> Dueño de Mascota
+                </div>
+                <div class="role-pill flex-fill" id="pill-vet" data-role="VETERINARIA">
+                    <i class="bi bi-hospital me-1 text-primary"></i> Veterinaria
+                </div>
             </div>
-            
-            <hr class="mb-4">
+        </div>
 
-            <!-- Formulario de Login -->
-            <form id="login-form" novalidate>
-                <!-- Mensaje de Error General -->
-                <div id="login-error" class="alert alert-danger d-none" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <span id="login-error-text">Credenciales incorrectas. Verificá tu email y contraseña.</span>
+        <!-- Formulario de Login -->
+        <form id="login-form" novalidate>
+            <!-- Mensaje de Error General -->
+            <div id="login-error" class="alert alert-danger d-none py-2 px-3 small" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <span id="login-error-text">Credenciales incorrectas. Verificá tu email y contraseña.</span>
+            </div>
+
+            <!-- Campo Email o DNI -->
+            <div class="mb-3">
+                <label for="login-email" class="form-label fw-semibold small" id="label-identifier">Correo electrónico o DNI</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-person"></i></span>
+                    <input type="text" class="form-control border-start-0" id="login-email" placeholder="ejemplo@email.com o tu DNI" required>
                 </div>
+                <div class="invalid-feedback small">Por favor ingresá tu correo o DNI.</div>
+            </div>
 
-                <!-- Campo Email -->
-                <div class="mb-3">
-                    <label for="login-email" class="form-label fw-semibold">Correo electrónico</label>
-                    <input type="email" class="form-control" id="login-email" placeholder="ejemplo@veterinaria.com" required data-validate="email">
-                    <div class="invalid-feedback">Por favor, ingresá un correo electrónico válido.</div>
+            <!-- Campo Contraseña -->
+            <div class="mb-3">
+                <div class="d-flex justify-content-between">
+                    <label for="login-password" class="form-label fw-semibold small">Contraseña</label>
+                    <span class="text-muted small" id="hint-password"></span>
                 </div>
-
-                <!-- Campo Contraseña -->
-                <div class="mb-4">
-                    <label for="login-password" class="form-label fw-semibold">Contraseña</label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" id="login-password" placeholder="Tu contraseña" required data-validate="required" minlength="4">
-                        <button class="btn btn-outline-secondary" type="button" id="toggle-password" aria-label="Mostrar u ocultar contraseña">
-                            <i class="bi bi-eye"></i>
-                        </button>
-                        <div class="invalid-feedback">La contraseña es requerida y debe tener al menos 4 caracteres.</div>
-                    </div>
+                <div class="input-group">
+                    <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-lock"></i></span>
+                    <input type="password" class="form-control border-start-0 border-end-0" id="login-password" placeholder="Tu contraseña" required minlength="4">
+                    <button class="btn btn-outline-secondary border-start-0" type="button" id="toggle-password" aria-label="Mostrar u ocultar contraseña">
+                        <i class="bi bi-eye"></i>
+                    </button>
                 </div>
+                <div class="invalid-feedback small">La contraseña es obligatoria.</div>
+            </div>
 
-                <!-- Botón Submit -->
-                <button type="submit" id="btn-submit" class="btn btn-primary w-100 py-2 mb-3 fw-bold" style="background-color: var(--color-primary); border-color: var(--color-primary);">
-                    <span id="submit-text">Iniciar sesión</span>
-                    <span id="submit-spinner" class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
+            <!-- Botón Submit -->
+            <button type="submit" id="btn-submit" class="btn btn-primary w-100 py-2 mb-3 fw-bold shadow-sm">
+                <span id="submit-text">Ingresar a mi cuenta</span>
+                <span id="submit-spinner" class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
+            </button>
+        </form>
+
+        <!-- Accesos rápidos de prueba (Demo) -->
+        <div class="demo-box mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-bold text-muted" style="font-size: 0.75rem;"><i class="bi bi-lightning-charge-fill text-warning me-1"></i>Acceso rápido de prueba:</span>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="button" class="btn btn-sm btn-outline-success flex-fill" style="font-size: 0.75rem;" id="btn-demo-cliente">
+                    <i class="bi bi-person me-1"></i>Dueño (María)
                 </button>
-            </form>
+                <button type="button" class="btn btn-sm btn-outline-primary flex-fill" style="font-size: 0.75rem;" id="btn-demo-vet">
+                    <i class="bi bi-hospital me-1"></i>Veterinaria
+                </button>
+            </div>
+        </div>
 
-            <!-- Enlaces adicionales -->
-            <div class="text-center mt-3">
-                <a href="acceso.html" class="text-decoration-none d-block mb-2" style="color: var(--color-primary);">¿Necesitás acceder con un código?</a>
-                <a href="index.html" class="text-decoration-none text-muted d-block">Volver al inicio</a>
+        <!-- Enlace a Registro para Dueños -->
+        <div class="text-center pt-2 border-top">
+            <p class="small text-muted mb-2">
+                ¿Sos dueño y todavía no tenés cuenta?
+                <a href="registro.html" class="fw-bold text-primary text-decoration-none d-block mt-1">
+                    <i class="bi bi-person-plus me-1"></i>Registrate acá gratis
+                </a>
+            </p>
+            <div class="d-flex justify-content-center gap-3 mt-3" style="font-size: 0.85rem;">
+                <a href="acceso.html" class="text-muted text-decoration-none">
+                    <i class="bi bi-key me-1"></i>Canjear código
+                </a>
+                <span class="text-muted">&bull;</span>
+                <a href="index.html" class="text-muted text-decoration-none">
+                    <i class="bi bi-house me-1"></i>Inicio
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap 5.3 JS Bundle -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Scripts Propios -->
     <script src="assets/js/config.js"></script>
+    <script src="utils/mock-data.js"></script>
     <script src="assets/js/utils.js"></script>
-    <script src="assets/js/utils/validators.js"></script>
-    <script src="assets/js/components/toast.js"></script>
-    <script src="assets/js/components/forms.js"></script>
     <script src="assets/js/auth.js"></script>
     <script src="pages/login.js"></script>
 </body>

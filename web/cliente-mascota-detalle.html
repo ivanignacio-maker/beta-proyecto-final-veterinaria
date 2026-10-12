@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia Clínica - VetCare Dueños</title>
+    
+    <link rel="icon" href="data:,">
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <!-- CSS Propios -->
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/pages.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body class="client-layout">
+    <!-- Header -->
+    <div id="header-container"></div>
+    
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        <div class="container-fluid p-0">
+            <!-- Breadcrumbs -->
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="cliente-dashboard.html" class="text-decoration-none text-muted">Mi Panel</a></li>
+                    <li class="breadcrumb-item"><a href="cliente-mascotas.html" class="text-decoration-none text-muted">Mis Mascotas</a></li>
+                    <li class="breadcrumb-item active text-dark fw-semibold" id="breadcrumb-nombre-mascota" aria-current="page">Cargando...</li>
+                </ol>
+            </nav>
+
+            <!-- Encabezado de la Mascota -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 bg-white" id="header-mascota-card">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
+                        <div class="d-flex align-items-center gap-4">
+                            <img src="" id="mascota-foto" alt="Mascota" class="rounded-4 object-fit-cover shadow-sm" style="width: 110px; height: 110px;">
+                            <div>
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <h2 class="fw-bold mb-0 text-dark" id="mascota-nombre">--</h2>
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle text-capitalize fs-6" id="mascota-tipo">--</span>
+                                </div>
+                                <p class="text-muted mb-2">
+                                    <span id="mascota-raza" class="fw-semibold text-dark">--</span> &bull; 
+                                    <span id="mascota-edad">--</span> &bull; 
+                                    <span id="mascota-peso">-- kg</span>
+                                </p>
+                                <div class="d-flex flex-wrap gap-2 small">
+                                    <span class="badge bg-light text-muted border"><i class="bi bi-palette me-1"></i>Color: <span id="mascota-color">--</span></span>
+                                    <span class="badge bg-light text-muted border"><i class="bi bi-upc-scan me-1"></i>Microchip: <span id="mascota-microchip">Sin chip</span></span>
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle"><i class="bi bi-check-circle me-1"></i>Historia Única Activa</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones de Acción Rápida -->
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="cliente-reporte.html" id="btn-reporte-fallback-link" class="btn btn-outline-warning text-dark fw-semibold shadow-sm">
+                                <i class="bi bi-journal-medical me-1"></i>Reportar atención
+                            </a>
+                            <button class="btn btn-outline-primary fw-semibold" id="btn-generar-codigo-mascota">
+                                <i class="bi bi-key-fill me-1"></i>Generar código
+                            </button>
+                            <a href="cliente-turnos.html" id="btn-pedir-turno-link" class="btn btn-success fw-semibold shadow-sm">
+                                <i class="bi bi-calendar-plus me-1"></i>Pedir turno
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navegación por Pestañas (Tabs) -->
+            <ul class="nav nav-pills nav-fill gap-2 p-1 bg-white rounded-4 shadow-sm border mb-4" id="petTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active rounded-3 py-2 fw-semibold" id="tab-historia-btn" data-bs-toggle="pill" data-bs-target="#tab-historia" type="button" role="tab">
+                        <i class="bi bi-clipboard2-pulse me-2"></i>Historia Clínica
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-3 py-2 fw-semibold" id="tab-turnos-btn" data-bs-toggle="pill" data-bs-target="#tab-turnos" type="button" role="tab">
+                        <i class="bi bi-calendar3 me-2"></i>Turnos
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-3 py-2 fw-semibold" id="tab-permisos-btn" data-bs-toggle="pill" data-bs-target="#tab-permisos" type="button" role="tab">
+                        <i class="bi bi-shield-lock me-2"></i>Permisos y Códigos
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Contenido de las Pestañas -->
+            <div class="tab-content" id="petTabsContent">
+                <!-- Pestaña 1: Historia Clínica -->
+                <div class="tab-pane fade show active" id="tab-historia" role="tabpanel">
+                    <!-- Barra de filtros -->
+                    <div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                            <div class="d-flex flex-wrap gap-2" id="timeline-filters">
+                                <button class="btn btn-sm btn-primary active filter-btn" data-filter="todos">Todos</button>
+                                <button class="btn btn-sm btn-light border filter-btn" data-filter="consulta">Consultas</button>
+                                <button class="btn btn-sm btn-light border filter-btn" data-filter="vacuna">Vacunas</button>
+                                <button class="btn btn-sm btn-light border filter-btn" data-filter="estudio">Estudios</button>
+                                <button class="btn btn-sm btn-light border filter-btn" data-filter="informe">Informes externos</button>
+                                <button class="btn btn-sm btn-light border filter-btn" data-filter="dueno">Reportados por mí</button>
+                            </div>
+                            <div class="text-muted small">
+                                <i class="bi bi-shield-check text-success me-1"></i>Historial oficial inmutable
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Leyenda de Orígenes -->
+                    <div class="d-flex flex-wrap gap-3 mb-3 px-2 text-muted small">
+                        <span><span class="badge bg-primary text-white me-1">&bull;</span> Veterinaria interna autorizada</span>
+                        <span><span class="badge bg-info text-white me-1">&bull;</span> Veterinaria externa (por código)</span>
+                        <span><span class="badge bg-warning text-dark border border-warning me-1">⚠️</span> Reportado por dueño (no verificado)</span>
+                    </div>
+
+                    <!-- Contenedor Timeline -->
+                    <div id="timeline-container" class="position-relative">
+                        <div class="text-center py-5 text-muted">
+                            <span class="spinner-border spinner-border-sm me-2"></span>Cargando historia clínica...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pestaña 2: Turnos -->
+                <div class="tab-pane fade" id="tab-turnos" role="tabpanel">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="fw-bold text-dark mb-0">Turnos Programados y Pasados</h5>
+                            <a href="cliente-turnos.html" class="btn btn-sm btn-success">
+                                <i class="bi bi-plus-lg me-1"></i>Solicitar Turno
+                            </a>
+                        </div>
+                        <div id="turnos-mascota-container"></div>
+                    </div>
+                </div>
+
+                <!-- Pestaña 3: Permisos y Códigos -->
+                <div class="tab-pane fade" id="tab-permisos" role="tabpanel">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                                <h5 class="fw-bold text-dark mb-3">Clínicas con Permiso Aprobado</h5>
+                                <p class="text-muted small mb-3">Estas veterinarias tienen autorización vigente para consultar y escribir en la historia clínica.</p>
+                                <div id="permisos-mascota-container"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="fw-bold text-dark mb-0">Códigos Temporales</h5>
+                                    <button class="btn btn-sm btn-primary" onclick="abrirModalGenerarCodigo()">
+                                        <i class="bi bi-plus-lg me-1"></i>Nuevo Código
+                                    </button>
+                                </div>
+                                <p class="text-muted small mb-3">Códigos para consultas de urgencia o veterinarias externas.</p>
+                                <div id="codigos-mascota-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Modal Generar Código -->
+    <div class="modal fade" id="modalCodigoMascota" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header border-bottom bg-light">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-key-fill text-primary me-2"></i>Generar Código de Acceso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="form-codigo-detalle">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small">Vigencia del código temporal</label>
+                            <select class="form-select" id="detalle-vigencia">
+                                <option value="24">24 horas</option>
+                                <option value="48" selected>48 horas</option>
+                                <option value="72">72 horas</option>
+                            </select>
+                        </div>
+                        <div id="box-resultado-codigo" class="d-none text-center p-3 my-3 bg-light rounded-3 border">
+                            <small class="text-muted d-block mb-1">CÓDIGO DE ACCESO:</small>
+                            <div class="display-6 fw-bold text-primary mb-2" id="val-codigo-generado">------</div>
+                            <small class="text-muted">Proporcioná este código al veterinario externo para que consulte el historial en la web.</small>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary fw-semibold" id="btn-submit-codigo">
+                                Generar código
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="utils/mock-data.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="utils/formatters.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="services/api.js"></script>
+    <script src="components/header.js"></script>
+    <script src="components/sidebar.js"></script>
+    <script src="components/footer.js"></script>
+    <script src="components/toast.js"></script>
+    <script src="pages/cliente-mascota-detalle.js"></script>
+</body>
+</html>

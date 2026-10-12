@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - VetCare Dueños</title>
+    
+    <link rel="icon" href="data:,">
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <!-- CSS Propios -->
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/pages.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body class="client-layout">
+    <!-- Header -->
+    <div id="header-container"></div>
+    
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        <div class="container-fluid p-0" style="max-width: 900px;">
+            <!-- Breadcrumbs -->
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="cliente-dashboard.html" class="text-decoration-none text-muted">Mi Panel</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Mi Perfil</li>
+                </ol>
+            </nav>
+
+            <div class="mb-4">
+                <h1 class="h3 fw-bold text-dark mb-1">Mi Cuenta de Propietario</h1>
+                <p class="text-muted">Administrá tus datos personales de contacto y opciones de seguridad.</p>
+            </div>
+
+            <!-- Alerta si debe cambiar contraseña -->
+            <div id="alerta-cambio-pass" class="alert alert-warning border-warning shadow-sm rounded-4 p-3 d-none mb-4">
+                <div class="d-flex gap-3 align-items-center">
+                    <i class="bi bi-shield-lock-fill fs-3 text-warning"></i>
+                    <div>
+                        <strong class="d-block text-dark">Cambio obligatorio de contraseña:</strong>
+                        <span class="small text-muted">Estás utilizando tu DNI como contraseña inicial. Por seguridad, te recomendamos cambiarla a una contraseña personal.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Columna Izquierda: Datos del Perfil -->
+                <div class="col-lg-7">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+                        <h5 class="fw-bold text-dark mb-3"><i class="bi bi-person-circle text-primary me-2"></i>Datos Personales</h5>
+                        <form id="form-perfil-cliente" novalidate>
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <label class="form-label fw-semibold small text-muted">Nombre</label>
+                                    <input type="text" class="form-control" id="perfil-nombre" disabled>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label fw-semibold small text-muted">Apellido</label>
+                                    <input type="text" class="form-control" id="perfil-apellido" disabled>
+                                </div>
+                            </div>
+
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <label class="form-label fw-semibold small text-muted">DNI / Documento</label>
+                                    <input type="text" class="form-control" id="perfil-dni" disabled>
+                                    <small class="text-muted" style="font-size: 0.72rem;">Identificador único del titular.</small>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label fw-semibold small text-muted">Correo electrónico</label>
+                                    <input type="email" class="form-control" id="perfil-email" disabled>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="perfil-telefono" class="form-label fw-semibold small">Teléfono / WhatsApp de contacto <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" id="perfil-telefono" required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="perfil-direccion" class="form-label fw-semibold small">Dirección o Localidad</label>
+                                <input type="text" class="form-control" id="perfil-direccion">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary fw-semibold" id="btn-guardar-perfil">
+                                <i class="bi bi-check-lg me-1"></i>Guardar cambios
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Seguridad y Contraseña -->
+                <div class="col-lg-5">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                        <h5 class="fw-bold text-dark mb-3"><i class="bi bi-lock-fill text-warning me-2"></i>Seguridad y Acceso</h5>
+                        <form id="form-password-cliente" novalidate>
+                            <div class="mb-3">
+                                <label for="pass-actual" class="form-label fw-semibold small">Contraseña actual <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" id="pass-actual" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="pass-nueva" class="form-label fw-semibold small">Nueva contraseña <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" id="pass-nueva" required minlength="6" placeholder="Mínimo 6 caracteres">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="pass-confirmar" class="form-label fw-semibold small">Confirmar nueva contraseña <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" id="pass-confirmar" required minlength="6">
+                            </div>
+
+                            <button type="submit" class="btn btn-outline-warning text-dark fw-semibold w-100" id="btn-cambiar-pass">
+                                <i class="bi bi-key me-1"></i>Actualizar Contraseña
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="utils/mock-data.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="services/api.js"></script>
+    <script src="components/header.js"></script>
+    <script src="components/sidebar.js"></script>
+    <script src="components/footer.js"></script>
+    <script src="components/toast.js"></script>
+    <script src="pages/cliente-perfil.js"></script>
+</body>
+</html>

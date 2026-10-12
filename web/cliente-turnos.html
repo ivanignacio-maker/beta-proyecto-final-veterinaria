@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Turnos - VetCare Dueños</title>
+    
+    <link rel="icon" href="data:,">
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <!-- CSS Propios -->
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/pages.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body class="client-layout">
+    <!-- Header -->
+    <div id="header-container"></div>
+    
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        <div class="container-fluid p-0">
+            <!-- Breadcrumbs y Título -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                <div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-1">
+                            <li class="breadcrumb-item"><a href="cliente-dashboard.html" class="text-decoration-none text-muted">Mi Panel</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Mis Turnos</li>
+                        </ol>
+                    </nav>
+                    <h1 class="h3 fw-bold text-dark mb-0">Gestión de Turnos</h1>
+                </div>
+                <button class="btn btn-success d-flex align-items-center gap-2 fw-semibold shadow-sm" id="btn-pedir-turno">
+                    <i class="bi bi-calendar-plus-fill"></i> Solicitar Nuevo Turno
+                </button>
+            </div>
+
+            <!-- Filtros por Estado -->
+            <div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
+                <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <span class="text-muted small fw-bold me-2">Filtrar:</span>
+                    <button class="btn btn-sm btn-primary active filter-turno-btn" data-filter="todos">Todos</button>
+                    <button class="btn btn-sm btn-light border filter-turno-btn" data-filter="confirmado">Confirmados</button>
+                    <button class="btn btn-sm btn-light border filter-turno-btn" data-filter="pendiente">Pendientes</button>
+                    <button class="btn btn-sm btn-light border filter-turno-btn" data-filter="realizado">Realizados</button>
+                    <button class="btn btn-sm btn-light border filter-turno-btn" data-filter="cancelado">Cancelados</button>
+                </div>
+            </div>
+
+            <!-- Tabla / Lista de Turnos -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="tabla-turnos">
+                            <thead class="bg-light text-muted small text-uppercase">
+                                <tr>
+                                    <th class="ps-4">Fecha y Hora</th>
+                                    <th>Mascota</th>
+                                    <th>Veterinaria / Clínica</th>
+                                    <th>Motivo de Consulta</th>
+                                    <th>Estado</th>
+                                    <th class="text-end pe-4">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="turnos-tbody">
+                                <tr>
+                                    <td colspan="6" class="text-center py-5 text-muted">
+                                        <span class="spinner-border spinner-border-sm me-2"></span>Cargando tus turnos...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Modal Solicitar Turno -->
+    <div class="modal fade" id="modalSolicitarTurno" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header border-bottom bg-light">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-calendar-plus text-success me-2"></i>Solicitar Turno Veterinario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="form-solicitar-turno" novalidate>
+                        <div class="mb-3">
+                            <label for="turno-mascota" class="form-label fw-semibold small">¿Para qué mascota? <span class="text-danger">*</span></label>
+                            <select class="form-select" id="turno-mascota" required></select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="turno-veterinaria" class="form-label fw-semibold small">Clínica / Veterinaria <span class="text-danger">*</span></label>
+                            <select class="form-select" id="turno-veterinaria" required></select>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label for="turno-fecha" class="form-label fw-semibold small">Fecha <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="turno-fecha" required>
+                            </div>
+                            <div class="col-6">
+                                <label for="turno-hora" class="form-label fw-semibold small">Hora <span class="text-danger">*</span></label>
+                                <select class="form-select" id="turno-hora" required>
+                                    <option value="09:00">09:00 hs</option>
+                                    <option value="10:00" selected>10:00 hs</option>
+                                    <option value="11:30">11:30 hs</option>
+                                    <option value="14:00">14:00 hs</option>
+                                    <option value="16:00">16:00 hs</option>
+                                    <option value="17:30">17:30 hs</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="turno-motivo" class="form-label fw-semibold small">Motivo de la visita <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="turno-motivo" rows="3" placeholder="Ej: Control anual de vacunas, control de peso, chequeo general..." required></textarea>
+                            <small class="text-muted" style="font-size: 0.75rem;">El turno se enviará con estado "Pendiente" y la clínica lo confirmará.</small>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-success fw-semibold" id="btn-submit-turno">
+                                Enviar Solicitud de Turno
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="utils/mock-data.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="utils/formatters.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="services/api.js"></script>
+    <script src="components/header.js"></script>
+    <script src="components/sidebar.js"></script>
+    <script src="components/footer.js"></script>
+    <script src="components/toast.js"></script>
+    <script src="pages/cliente-turnos.js"></script>
+</body>
+</html>

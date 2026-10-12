@@ -1,11 +1,17 @@
 /**
  * Lógica para el Inicio de Sesión
+ * Soporta Veterinarias y Dueños de Mascotas (Clientes)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Redirigir si ya está autenticado
-    if (localStorage.getItem(APP_CONFIG.TOKEN_KEY)) {
-        window.location.href = 'dashboard.html';
+    // 1. Si ya está autenticado, redirigir a su panel correspondiente
+    if (window.auth && window.auth.isAuthenticated()) {
+        const u = window.auth.getUser();
+        if (u && u.rol === 'CLIENTE') {
+            window.location.href = 'cliente-dashboard.html';
+        } else {
+            window.location.href = 'dashboard.html';
+        }
         return;
     }
 
@@ -14,50 +20,100 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('login-password');
     const togglePasswordBtn = document.getElementById('toggle-password');
     const loginError = document.getElementById('login-error');
+    const loginErrorText = document.getElementById('login-error-text');
     const btnSubmit = document.getElementById('btn-submit');
     const submitText = document.getElementById('submit-text');
     const submitSpinner = document.getElementById('submit-spinner');
+    const pillCliente = document.getElementById('pill-cliente');
+    const pillVet = document.getElementById('pill-vet');
+    const labelIdentifier = document.getElementById('label-identifier');
+    const btnDemoCliente = document.getElementById('btn-demo-cliente');
+    const btnDemoVet = document.getElementById('btn-demo-vet');
 
-    // 2. Toggle visibilidad de contraseña
-    togglePasswordBtn.addEventListener('click', () => {
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-        
-        const icon = togglePasswordBtn.querySelector('i');
-        if (type === 'text') {
-            icon.classList.remove('bi-eye');
-            icon.classList.add('bi-eye-slash');
+    let currentRole = 'CLIENTE';
+
+    // 2. Control de pestañas de rol
+    function setRole(role) {
+        currentRole = role;
+        if (role === 'CLIENTE') {
+            pillCliente.classList.add('active');
+            pillVet.classList.remove('active');
+            labelIdentifier.textContent = 'Correo electrónico o DNI';
+            emailInput.placeholder = 'maria.g@email.com o 30123456';
+            btnSubmit.className = 'btn btn-success w-100 py-2 mb-3 fw-bold shadow-sm';
+            submitText.textContent = 'Ingresar como Dueño';
         } else {
-            icon.classList.remove('bi-eye-slash');
-            icon.classList.add('bi-eye');
+            pillVet.classList.add('active');
+            pillCliente.classList.remove('active');
+            labelIdentifier.textContent = 'Correo electrónico institucional';
+            emailInput.placeholder = 'admin@vetcare.com';
+            btnSubmit.className = 'btn btn-primary w-100 py-2 mb-3 fw-bold shadow-sm';
+            submitText.textContent = 'Ingresar como Veterinaria';
         }
-    });
+        loginError.classList.add('d-none');
+    }
 
-    // Permitir enviar con la tecla Enter
-    passwordInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            loginForm.dispatchEvent(new Event('submit'));
-        }
-    });
+    if (pillCliente) {
+        pillCliente.addEventListener('click', () => setRole('CLIENTE'));
+    }
+    if (pillVet) {
+        pillVet.addEventListener('click', () => setRole('VETERINARIA'));
+    }
 
-    // 3. Manejo del formulario
+    // Inicializar estado del botón por defecto
+    setRole('CLIENTE');
+
+    // 3. Botones de Demo Rápido
+    if (btnDemoCliente) {
+        btnDemoCliente.addEventListener('click', () => {
+            setRole('CLIENTE');
+            emailInput.value = 'maria.g@email.com';
+            passwordInput.value = 'password123';
+            emailInput.classList.remove('is-invalid');
+            passwordInput.classList.remove('is-invalid');
+        });
+    }
+
+    if (btnDemoVet) {
+        btnDemoVet.addEventListener('click', () => {
+            setRole('VETERINARIA');
+            emailInput.value = 'admin@vetcare.com';
+            passwordInput.value = 'admin123';
+            emailInput.classList.remove('is-invalid');
+            passwordInput.classList.remove('is-invalid');
+        });
+    }
+
+    // 4. Toggle visibilidad de contraseña
+    if (togglePasswordBtn) {
+        togglePasswordBtn.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            const icon = togglePasswordBtn.querySelector('i');
+            if (type === 'text') {
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        });
+    }
+
+    // 5. Envío del formulario
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Limpiar errores previos
         loginError.classList.add('d-none');
         emailInput.classList.remove('is-invalid');
         passwordInput.classList.remove('is-invalid');
 
-        const email = emailInput.value.trim();
+        const identifier = emailInput.value.trim();
         const password = passwordInput.value;
 
-        // Validación básica
         let isValid = true;
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (!email || !emailRegex.test(email)) {
+        if (!identifier) {
             emailInput.classList.add('is-invalid');
             isValid = false;
         }
@@ -69,76 +125,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!isValid) return;
 
-        // Estado de carga
         setLoadingState(true);
 
-        // Simulamos la llamada a la API (mocking delay)
         try {
-            const success = await mockLoginApi(email, password);
-            if (success) {
-                // Éxito: Guardar token y datos, redirigir
-                localStorage.setItem(APP_CONFIG.TOKEN_KEY, 'mock_token_12345');
-                localStorage.setItem(APP_CONFIG.USER_KEY, JSON.stringify({ email: email, role: 'admin' }));
-                window.location.href = 'dashboard.html';
+            // Llamar a auth.login soportando el rol seleccionado
+            const user = await window.auth.login(identifier, password, currentRole);
+            
+            // Redirigir según el rol del usuario
+            if (user.rol === 'CLIENTE') {
+                window.location.href = 'cliente-dashboard.html';
             } else {
-                // Error de credenciales
-                showError();
-                setLoadingState(false);
+                window.location.href = 'dashboard.html';
             }
         } catch (error) {
-            showError();
+            showError(error.message || 'Credenciales incorrectas. Verificá tus datos.');
             setLoadingState(false);
         }
     });
 
-    // Funciones auxiliares
     function setLoadingState(isLoading) {
+        btnSubmit.disabled = isLoading;
+        emailInput.disabled = isLoading;
+        passwordInput.disabled = isLoading;
         if (isLoading) {
-            btnSubmit.disabled = true;
-            submitText.textContent = 'Iniciando...';
+            submitText.textContent = 'Verificando...';
             submitSpinner.classList.remove('d-none');
-            emailInput.disabled = true;
-            passwordInput.disabled = true;
         } else {
-            btnSubmit.disabled = false;
-            submitText.textContent = 'Iniciar sesión';
+            submitText.textContent = currentRole === 'CLIENTE' ? 'Ingresar como Dueño' : 'Ingresar como Veterinaria';
             submitSpinner.classList.add('d-none');
-            emailInput.disabled = false;
-            passwordInput.disabled = false;
         }
     }
 
-    function showError() {
+    function showError(msg) {
+        loginErrorText.textContent = msg;
         loginError.classList.remove('d-none');
-        // Pequeño shake effect
-        loginCard = document.querySelector('.login-card');
-        loginCard.style.animation = 'shake 0.5s';
-        setTimeout(() => { loginCard.style.animation = ''; }, 500);
-    }
-
-    // Mock API
-    function mockLoginApi(email, password) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                // Acepta especificamente este usuario según requerimiento mock
-                if (email === 'admin@vetcare.com' && password === 'admin123') {
-                    resolve(true);
-                } else {
-                    resolve(false);
-                }
-            }, 1000); // 1 segundo de retraso simulado
-        });
+        
+        const card = document.querySelector('.login-card');
+        if (card) {
+            card.style.transform = 'translateX(-6px)';
+            setTimeout(() => card.style.transform = 'translateX(6px)', 100);
+            setTimeout(() => card.style.transform = 'translateX(-3px)', 200);
+            setTimeout(() => card.style.transform = 'translateX(3px)', 300);
+            setTimeout(() => card.style.transform = 'none', 400);
+        }
     }
 });
-
-// Agregar estilos de animación por si hace falta en el error
-const style = document.createElement('style');
-style.innerHTML = `
-@keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
-}`;
-document.head.appendChild(style);
